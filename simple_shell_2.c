@@ -7,7 +7,7 @@
 
 /**
  * exec_command - executes the command parsed to the shell
- * @args: Different command parsed to shell
+ * @args: pointer to the command parsed to shell
  *
  * Return: Nothing
  */
@@ -23,8 +23,8 @@ void exec_command(char *args[])
 
 /**
  * parse_args - breaks string and locates commands from arguments
- * @str: string to be examined
- * @args: Arguments located
+ * @str: pointer to the string to be examined
+ * @args: pointer to an array of Arguments located
  * Return: Nothing
  */
 void parse_args(char *str, char *args[])

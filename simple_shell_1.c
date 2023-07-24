@@ -8,15 +8,15 @@
 
 /**
  * exec_command - Executes the provided command using execve.
- * @command: The command to execute.
+ * @args: Pointer to the command to execute.
  *
  * Return: Nothing
  */
-void exec_command(char *command)
+void exec_command(char *args)
 {
-	char *const argv[] = {command, NULL};
+	char *const argv[] = {args, NULL};
 
-	if (execve(command, argv, NULL) == -1)
+	if (execve(args, argv, NULL) == -1)
 	{
 		perror("execve error");
 		exit(EXIT_FAILURE);
@@ -24,7 +24,7 @@ void exec_command(char *command)
 }
 
 /**
- * main - the beginning of the program
+ * main - A shell program that reads and execute commands only
  * Return: 0 Always Success
  */
 int main(void)
