@@ -68,20 +68,21 @@ int main(void)
 
 		parse_args(input, args);
 
-		if (find_command(args))
+		if (strcmp(args[0], "exit") == 0)
+			break;
+
+		if (!find_command(args))
 		{
-			pid = fork();
-			if (pid == -1)
-				perror("fork error");
-			else if (pid == 0)
-				exec_command(args);
-			else
-				wait(&status);
+			printf("command not found: %s\n", args[0]);
+			continue;
 		}
+		pid = fork();
+		if (pid == -1)
+			perror("fork error");
+		else if (pid == 0)
+			exec_command(args);
 		else
-		{
-			fprintf(stderr, "Command not found: %s\n", args[0]);
-		}
+			wait(&status);
 	}
 	free(input);
 	printf("\n");
