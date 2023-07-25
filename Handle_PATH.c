@@ -4,6 +4,10 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <sys/times.h>
+#include <stddef.h>
+
+extern char **environ;
+
 /**
  * find_command - searches for the command in the PATH and updates args
  * @args: pointer to an array of Arguments located
@@ -43,4 +47,34 @@ int find_command(char *args[])
 	}
 	free(path_copy);
 	return (found);
+}
+
+/**
+ * built_in - handles built-in commands (exit and env)
+ * @args: pointer to the command and its arguments
+ *
+ * Return: 1 if the command is a built-in, 0 otherwise
+ */
+int built_in(char *args[])
+{
+	char **env;
+
+	if (strcmp(args[0], "exit") == 0)
+	{
+		exit(EXIT_SUCCESS);
+		return (1);
+	}
+
+	if (strcmp(args[0], "env") == 0)
+	{
+		env = environ;
+		while (*env != NULL)
+		{
+			printf("%s\n", *env);
+			env++;
+		}
+		return (1);
+	}
+
+	return (0);
 }

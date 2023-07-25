@@ -6,6 +6,7 @@
 #include <sys/times.h>
 
 int find_command(char *args[]);
+int built_in(char *args[]);
 
 /**
  * exec_command - executes the command parsed to the shell
@@ -68,14 +69,9 @@ int main(void)
 
 		parse_args(input, args);
 
-		if (strcmp(args[0], "exit") == 0)
-			break;
-
-		if (!find_command(args))
-		{
-			printf("command not found: %s\n", args[0]);
+		if (built_in(args))
 			continue;
-		}
+
 		pid = fork();
 		if (pid == -1)
 			perror("fork error");
