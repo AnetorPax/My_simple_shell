@@ -5,7 +5,8 @@
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: exits with a given exit status
- *         (0) if info.argv[0] != "exit"
+ *         (0) if info.argv[0] != "exit" here is the status 
+ 
  */
 int _myexit(info_t *info)
 {
