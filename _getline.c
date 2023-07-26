@@ -8,10 +8,9 @@
 char *_getline(void)
 {
 	static char buffer[READ_SIZE];
-	static int pos;
-	static int bytes_read;
+	static ssize_t pos = 0;
+	ssize_t bytes_read = 0, i = 0;
 	char *line = NULL;
-	int line_len = 0;
 
 	while (1)
 	{
@@ -19,32 +18,33 @@ char *_getline(void)
 		{
 			bytes_read = read(STDIN_FILENO, buffer, READ_SIZE);
 			if (bytes_read <= 0)
-				break;
+				return (NULL);
+			if (bytes_read == -1)
+				return (NULL);
 			pos = 0;
 		}
-		while (pos < bytes_read && buffer[pos] != '\n')
+		if (buffer[pos] == '\n')
 		{
-			line = realloc(line, line_len + 2);
-			if (!line)
-			{
-				perror("realloc error");
-				exit(EXIT_FAILURE);
-			}
-			line[line_len++] = buffer[pos++];
-		}
-		if (pos < bytes_read && buffer[pos] == '\n')
-		{
-			line = realloc(line, line_len + 2);
-			if (!line)
-			{
-				perror("realloc error");
-				exit(EXIT_FAILURE);
-			}
-			line[line_len++] = buffer[pos];
-			line[line_len] = '\0';
+			buffer[pos] = '\0';
+			line = malloc(pos + 1);
+			if (line == NULL)
+				return (NULL);
+			for (i = 0; i < pos; i++)
+				line[i] = buffer[i];
+			line[i] = '\0';
+			pos++;
 			return (line);
 		}
+		pos++;
 	}
-	free(line);
-	return (NULL);
+}
+/**
+ * clean_up - clean up memory allocated to avoid memory leaks
+ * @char: pointer to the variable to clean
+ * Return: Nothing
+ */
+void clean_up(char *line)
+{
+	if (line)
+		free(line);
 }

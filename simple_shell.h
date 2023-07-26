@@ -11,6 +11,7 @@
 
 /* Prototypes */
 char *_getline(void);
+void clean_up(char *line);
 
 
 
