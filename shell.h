@@ -1,3 +1,4 @@
+//all the predefined functions 
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
